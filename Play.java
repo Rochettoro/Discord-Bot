@@ -6,8 +6,11 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Play implements Commands{
     @Override
@@ -30,15 +33,19 @@ public class Play implements Commands{
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         Member member = event.getMember();
+
+        assert member != null;
         GuildVoiceState voiceState = member.getVoiceState();
 
+        assert voiceState != null;
         if(!voiceState.inAudioChannel()){
             event.reply("You are not in a voice channel").queue();
             return;
         }
-        Member selfMember = event.getGuild().getSelfMember();
+        Member selfMember = Objects.requireNonNull(event.getGuild()).getSelfMember();
         GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
+        assert selfVoiceState != null;
         if(!selfVoiceState.inAudioChannel()){
             event.getGuild().getAudioManager().openAudioConnection(voiceState.getChannel());
         }else{
@@ -48,8 +55,16 @@ public class Play implements Commands{
             }
         }
 
+        String link = Objects.requireNonNull(event.getOption("name")).getAsString();
+
+        try {
+            new URI(link);
+        } catch (URISyntaxException e) {
+            link = "ytsearch:" + link;
+        }
+
         PlayerManager playerManager = PlayerManager.getInstance();
-        playerManager.play(event.getGuild(), event.getOption("name").getAsString());
+        playerManager.play(event.getGuild(), link);
         event.reply("Playing song").queue();
 
     }
