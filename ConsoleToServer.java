@@ -37,13 +37,13 @@ public class ConsoleToServer extends Thread {
                     String titoloField = scnr.nextLine();
                     if (titoloField.isEmpty()) {
                         titoloField = "-";
-                        System.out.println("titoloField vuoto!");
+                        System.out.println("titolo Field vuoto!");
                     }
                     System.out.println("Inserisci il testo del Field"+(i+1)+": (String)");
                     String testo = scnr.nextLine();
                     if (testo.isEmpty()) {
                         testo = "-";
-                        System.out.println("testo vuoto!");
+                        System.out.println("testo Field vuoto!");
                     }
                     System.out.println("Inline?: (true/false)");
                     boolean inline = scnr.nextBoolean();
