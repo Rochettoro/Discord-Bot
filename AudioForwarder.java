@@ -25,11 +25,11 @@ public class AudioForwarder implements AudioSendHandler {
 
     @Override
     public ByteBuffer provide20MsAudio() {
-        return null;
+        return buffer.flip();
     }
 
     @Override
     public boolean isOpus() {
-        return AudioSendHandler.super.isOpus();
+        return true;
     }
 }
