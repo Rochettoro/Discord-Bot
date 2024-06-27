@@ -11,6 +11,10 @@ public class DsBot {
         jda = JDABuilder.createDefault(token).build();
         CommandManager cmdmanager = new CommandManager();
         cmdmanager.add(new Play());
+        cmdmanager.add(new Stop());
+        cmdmanager.add(new Skip());
+        cmdmanager.add(new Queue());
+        cmdmanager.add(new Now());
         jda.addEventListener(cmdmanager);
         ConsoleToServer cts = new ConsoleToServer();
     }
