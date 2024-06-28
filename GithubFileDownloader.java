@@ -68,10 +68,8 @@ public class GithubFileDownloader implements Commands{
         HttpResponse response = httpClient.execute(request);
         InputStream inputStream = response.getEntity().getContent();
 
-        // Read file content into byte array
         byte[] fileBytes = inputStream.readAllBytes();
 
-        // Optional: Save file locally
         try (FileOutputStream fos = new FileOutputStream("downloaded.zip")) {
             fos.write(fileBytes);
         }
