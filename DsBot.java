@@ -9,14 +9,17 @@ public class DsBot {
     DsBot(String token){
         this.token = token;
         jda = JDABuilder.createDefault(token).build();
-        CommandManager cmdmanager = new CommandManager();
-        cmdmanager.add(new ForwardMessage());
-        cmdmanager.add(new Play());
-        cmdmanager.add(new Stop());
-        cmdmanager.add(new Skip());
-        cmdmanager.add(new Queue());
-        cmdmanager.add(new Now());
-        jda.addEventListener(cmdmanager);
+        CommandManager cmdManager = new CommandManager();
+        cmdManager.add(new ForwardMessage());
+        cmdManager.add(new Play());
+        cmdManager.add(new Stop());
+        cmdManager.add(new Skip());
+        cmdManager.add(new Queue());
+        cmdManager.add(new Now());
+        McScanner scan = new McScanner();
+        scan.getOptions();
+        cmdManager.add(scan);
+        jda.addEventListener(cmdManager);
         ConsoleToServer cts = new ConsoleToServer();
     }
 
