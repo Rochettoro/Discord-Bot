@@ -10,6 +10,7 @@ public class DsBot {
         this.token = token;
         jda = JDABuilder.createDefault(token).build();
         CommandManager cmdmanager = new CommandManager();
+        cmdmanager.add(new ForwardMessage());
         cmdmanager.add(new Play());
         cmdmanager.add(new Stop());
         cmdmanager.add(new Skip());
