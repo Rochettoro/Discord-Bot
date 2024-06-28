@@ -75,29 +75,34 @@ public class McScanner implements Commands{
                 //System.out.println(jsonResponse.toString(2));
 
                 boolean online = jsonResponse.getBoolean("online");
-                String ip = jsonResponse.getString("ip");
-                int port = jsonResponse.getInt("port");
-                int onlinePlayer = jsonResponse.getJSONObject("players").getInt("online");
-                int maxPlayer = jsonResponse.getJSONObject("players").getInt("max");
-                String version = jsonResponse.getString("version");
-                //System.out.println("Server online: " + online);
+                String reply = "";
+                if(online) {
+                    String ip = jsonResponse.getString("ip");
+                    int port = jsonResponse.getInt("port");
+                    int onlinePlayer = jsonResponse.getJSONObject("players").getInt("online");
+                    int maxPlayer = jsonResponse.getJSONObject("players").getInt("max");
+                    String version = jsonResponse.getString("version");
 
-                String imageData = jsonResponse.getString("icon");
+                    reply = "online: " + online + "\n" + "IP: " + ip + ":" + port + "\n" + "Players: " + onlinePlayer + "/" + maxPlayer + "\n" + "Version: " + version;
 
-                byte[] imageBytes = Base64.getDecoder().decode(imageData.split(",")[1]);
+                    String imageData = jsonResponse.getString("icon");
+                    byte[] imageBytes = Base64.getDecoder().decode(imageData.split(",")[1]);
+                    String filePath = "src/main/java/slack/tmpImg/output.png";
+                    File image = new File(filePath);
 
-                String filePath = "src/main/java/slack/tmpImg/output.png";
-                try (FileOutputStream fos = new FileOutputStream(filePath)) {
-                    fos.write(imageBytes);
-                    fos.close();
+                    try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                        fos.write(imageBytes);
+                        fos.close();
+                    }
+
+                    event.reply(reply).addFiles(AttachedFile.fromData(image, "logo.png")).queue();
+
+                    image.delete();
+                }else{
+                    reply = "Server not found/is offline";
+                    event.reply(reply).queue();
                 }
-
-                File image = new File(filePath);
-
-                event.reply("online: "+online+"\n"+"IP: "+ip+":"+port+"\n"+"Players: "+onlinePlayer+"/"+maxPlayer+"\n"+"Version: "+version)
-                        .addFiles(AttachedFile.fromData(image,"logo.png")).queue();
-
-                image.delete();
+                //System.out.println("Server online: " + online);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -105,6 +110,4 @@ public class McScanner implements Commands{
             return;
         }
     }
-
-
 }
