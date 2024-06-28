@@ -30,7 +30,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-beta.24</version> <!-- replace $version with the latest version -->
+            <version>5.0.0-beta.24</version>
             <!-- Optionally disable audio natives to reduce jar size by excluding `opus-java`
             <exclusions>
                 <exclusion>
